@@ -1,0 +1,28 @@
+{
+  "name": "comandas-api",
+  "version": "1.0.0",
+  "description": "API rest para aplicativo de comandas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db": "npx knex migrate:rollback && npx knex migrate:latest && npx knex seed:run"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Felipe Kazuto",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^2.3.0",
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
