@@ -8,7 +8,7 @@ module.exports = {
   async register(req, res) {
     try {
       const { email, password } = req.body
-      console.log(req.body, 'texttsd')
+      console.error(req.body, 'texttsd')
       const user = await knex.select().from('users').where({ email }).first()
 
       if (bcrypt.compareSync(password, user.password)) {
@@ -30,8 +30,8 @@ module.exports = {
         return res.json({
           success: true,
           menssage: 'users.registration.ok',
+          role: user.role,
           token
-          // role: user.role
         })
       } else {
         res.status(400).json({

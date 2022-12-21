@@ -6,6 +6,7 @@ exports.up = function (knex) {
     table.string('name', 255).notNullable()
     table.string('lastname', 255).notNullable()
     table.string('password', 255).notNullable()
+    table.string('image').defaultTo('')
     table.enu('role', ['ROOT', 'USER']).notNullable()
 
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now())

@@ -8,26 +8,20 @@ exports.seed = async function (knex) {
   await knex('users').insert([
     {
       id: 1,
-      email: 'root@gmail.com',
-      name: 'FeLIPE ',
-      lastname: 'Kazuto',
+      email: 'root@root.com',
+      name: 'root ',
+      lastname: 'root',
       password: bcrypt.hashSync('root', Number(process.env.SALT)),
+      image: '',
       role: roles.ROOT
     },
     {
       id: 2,
-      email: 'b@g.com',
-      name: 'FeLIPE1 ',
-      lastname: 'Kazuto1',
+      email: 'user@user.com',
+      name: 'User',
+      lastname: '01',
       password: bcrypt.hashSync('123', Number(process.env.SALT)),
-      role: 'USER'
-    },
-    {
-      id: 3,
-      email: 'sa@g.scom',
-      name: 'FeLIPE sasasa',
-      lastname: 'Kazutosasas',
-      password: bcrypt.hashSync('123', Number(process.env.SALT)),
+      image: '',
       role: 'USER'
     }
   ])

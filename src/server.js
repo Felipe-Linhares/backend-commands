@@ -21,4 +21,4 @@ app.listen(process.env.PORT)
 
 // * Start Message
 console.log('- Environment:', process.env.NODE_ENV)
-console.log('- Server Rugging on PORT:', process.env.PORT)
+console.log('- Server Running on PORT:', process.env.PORT)

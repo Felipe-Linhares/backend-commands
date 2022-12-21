@@ -11,6 +11,7 @@ module.exports = {
         'email',
         'name',
         'lastname',
+        'image',
         'role',
         'created_at',
         'updated_at'
@@ -27,6 +28,7 @@ module.exports = {
     let { email, name, lastname, password } = req.body
 
     try {
+      console.log(req.body)
       password = bcrypt.hashSync(password, Number(process.env.SALT))
 
       console.log(roles)
