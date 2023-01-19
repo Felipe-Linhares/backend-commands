@@ -1,9 +1,10 @@
 const knex = require('../database')
 const bcrypt = require('bcrypt')
-const { roles } = require('../middlewares/roles')
 
+const { roles } = require('../middlewares/roles')
 module.exports = {
-  // Index
+  // * Index
+
   async index(req, res) {
     const users = await knex
       .select(
@@ -20,12 +21,24 @@ module.exports = {
     return res.send(users)
   },
 
-  // Show
-  async show(req, res) {},
+  // * Show
 
-  // Create
+  async show(req, res) {
+    const { id } = req.user
+
+    const user = await knex
+      .select('id', 'email', 'name', 'lastname', 'image', 'role')
+      .from('users')
+      .where('id', id)
+      .first()
+
+    return res.json(user)
+  },
+
+  // * Create
+
   async create(req, res) {
-    let { email, name, lastname, password } = req.body
+    let { email, name, lastname, password, image } = req.body
 
     try {
       console.log(req.body)
@@ -34,7 +47,7 @@ module.exports = {
       console.log(roles)
 
       const [id] = await knex('users')
-        .insert({ email, name, lastname, password, role: roles.USER })
+        .insert({ email, name, lastname, password, image, role: roles.USER })
         .returning('id')
 
       return res.send({
@@ -51,12 +64,17 @@ module.exports = {
     }
   },
 
-  // Update
+  // * Update
+
   async update(req, res) {
     const { id } = req.params
-    const { email, name, lastname } = req.body
+    let { email, password, name, lastname, image } = req.body
     try {
-      await knex('users').update({ email, name, lastname }).where({ id })
+      password = bcrypt.hashSync(password, Number(process.env.SALT))
+
+      await knex('users')
+        .update({ email, name, password, lastname, image })
+        .where({ id })
       return res.send({
         sucess: true,
         message: 'user.update.ok'
@@ -69,10 +87,12 @@ module.exports = {
     }
   },
 
-  // Delete
+  // * Delete
+
   async delete(req, res) {
+    const { id } = req.params
     try {
-      await knex('users').delete().where({ id: req.user.id })
+      await knex('users').delete().where({ id: id })
       return res.send({
         success: true,
         message: 'user.delete.ok'

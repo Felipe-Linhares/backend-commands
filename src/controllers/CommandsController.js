@@ -2,7 +2,8 @@ const knex = require('../database')
 const { roles } = require('../middlewares/roles')
 
 module.exports = {
-  // Index
+  // * Index
+
   async index(req, res) {
     if (req.user.roles == roles.USER) {
       return res.status(404).json({
@@ -10,16 +11,13 @@ module.exports = {
         menssage: 'error'
       })
     } else {
-      const commands = await knex
-        .select('*')
-        .from('commands')
-        .where({ user_id: req.user.id })
-
+      const commands = await knex.select('*').from('commands')
       return res.send(commands)
     }
   },
 
-  // Show
+  // * Show
+
   async show(req, res) {
     const { id } = req.params
 
@@ -27,18 +25,19 @@ module.exports = {
       .select()
       .from('commands')
       .innerJoin('commands.id')
-      .where({ user_id: req.user.id, 'commands.id': id })
+      .where({ userId: req.user.id, 'commands.id': id })
 
     return res.send(commands)
   },
 
-  // Create
+  // * Create
+
   async create(req, res) {
     const { name, request, note } = req.body
 
     try {
       const [id] = await knex('commands')
-        .insert({ name, request, note, user_id: req.user.id })
+        .insert({ name, request, note, userId: req.user.id })
         .returning('id')
 
       return res.send({
@@ -54,15 +53,16 @@ module.exports = {
     }
   },
 
-  // Update
+  // * Update
+
   async update(req, res) {
     const { id } = req.params
     const { name, request, note } = req.body
 
     try {
-      const [id] = await knex('commands')
+      await knex('commands')
         .update({ name, request, note })
-        .where({ user_id: req.user.id, id })
+        .where({ userId: req.user.id, id })
 
       return res.send({
         success: true,
@@ -76,12 +76,13 @@ module.exports = {
     }
   },
 
-  // Delete
+  // * Delete
+
   async delete(req, res) {
     const { id } = req.params
 
     try {
-      await knex('commands').delete().where({ user_id: req.user.id, id })
+      await knex('commands').delete().where({ id: id })
 
       return res.send({
         success: true,

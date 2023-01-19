@@ -20,44 +20,66 @@ routes.get('/sys', (req, res) => {
 routes.post('/login', AccountsController.register)
 
 // * USERS ROUTES
-routes.get('/users', auth, permissions([roles.ROOT]), UsersController.index)
-routes.post('/users', auth, permissions([roles.ROOT]), UsersController.create)
-routes.put(
-  '/users/:id',
+routes.get(
+  '/users/index',
   auth,
   permissions([roles.ROOT]),
+  UsersController.index
+)
+routes.get(
+  '/users/show/:id',
+  auth,
+  permissions([roles.ROOT, roles.USER]),
+  UsersController.show
+)
+routes.post(
+  '/users/create',
+  auth,
+  permissions([roles.ROOT]),
+  UsersController.create
+)
+routes.put(
+  '/users/update/:id',
+  auth,
+  permissions([roles.ROOT, roles.USER]),
   UsersController.update
 )
 routes.delete(
-  '/users/:id',
-  permissions([roles.ROOT]),
+  '/users/delete/:id',
   auth,
+  permissions([roles.ROOT]),
   UsersController.delete
 )
 
 // * COMMANDS ROUTES
 routes.get(
-  '/commands',
+  '/commands/index',
   auth,
-  permissions([roles.USER]),
+  permissions([roles.USER, roles.ROOT]),
   CommandsController.index
 )
+routes.get(
+  '/commands/show/:id',
+  auth,
+  permissions([roles.USER]),
+  CommandsController.show
+)
 routes.post(
-  '/commands',
+  '/commands/create',
   auth,
   permissions([roles.USER]),
   CommandsController.create
 )
 routes.put(
-  '/commands/:id',
+  '/commands/update/:id',
   auth,
   permissions([roles.USER]),
   CommandsController.update
 )
 routes.delete(
-  '/commands/:id',
+  '/commands/delete/:id',
   auth,
-  permissions([roles.USER]),
+  permissions([roles.USER, roles.ROOT]),
   CommandsController.delete
 )
 

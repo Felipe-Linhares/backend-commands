@@ -3,7 +3,6 @@ const { roles } = require('../../middlewares/roles')
 
 exports.seed = async function (knex) {
   console.log('Seeding Commands')
-  // Deletes ALL existing entries
   await knex('users').del()
   await knex('users').insert([
     {
@@ -19,10 +18,10 @@ exports.seed = async function (knex) {
       id: 2,
       email: 'user@user.com',
       name: 'User',
-      lastname: '01',
-      password: bcrypt.hashSync('123', Number(process.env.SALT)),
+      lastname: 'user',
+      password: bcrypt.hashSync('user', Number(process.env.SALT)),
       image: '',
-      role: 'USER'
+      role: roles.USER
     }
   ])
 }

@@ -2,7 +2,6 @@ const knex = require('../database')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-// const UsersController = require('./UsersController')
 
 module.exports = {
   async register(req, res) {
@@ -18,8 +17,6 @@ module.exports = {
         const token = jwt.sign(
           {
             id: user.id,
-            // email: user.email,
-            // password: user.password,
             role: user.role
           },
           process.env.SECRET_KEY,
@@ -31,6 +28,7 @@ module.exports = {
           success: true,
           menssage: 'users.registration.ok',
           role: user.role,
+          id: user.id,
           token
         })
       } else {
@@ -47,34 +45,4 @@ module.exports = {
       })
     }
   }
-
-  //   async register(req, res) {
-  //     try {
-  //       const { email, password } = req.body
-  //       const user = await knex.select().from('users').where({ email, password }).first()
-
-  //     const token = jwt.sign(
-  //       {
-  //         id: user.id,
-
-  //         role: user.role
-  //       },
-  //       process.env.SECRET_KEY,
-  //       {
-  //         expiresIn: process.env.TOKEN_LIFE
-  //       }
-  //     )
-  //     return res.json({
-  //       success: true,
-  //       menssage: 'users.registration.ok',
-  //       token
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(400).json({
-  //       success: false,
-  //       message: 'users.registration.error'
-  //     })
-  //     }
-  //   }
 }
